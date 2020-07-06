@@ -1,11 +1,16 @@
 <template>
   <div>
     <h1>Register</h1>
-    <input type="email" name="email" placeholder="Email..." v-model="email"/>
-    <br>
-    <input type="password" name="password" placeholder="Password..." v-model="password"/>
-    <br>
-    <button @click="register">Register</button>
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto col-sm-4">
+          <input class="form-control" type="email" name="email" placeholder="Email..." v-model="email"/>
+          <input class="form-control mt-2" type="password" name="password" placeholder="Password..." v-model="password"/>
+          <div class="text-danger" v-html="error"></div>
+          <button class="btn btn-primary mt-2" @click="register">Sign Up</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,17 +19,22 @@ import AuthenticationService from '@/services/AuthenticationService'
 export default {
   data () {
     return {
-      email: null,
-      password: null
+      email: '',
+      password: '',
+      error: null
     }
   },
   methods: {
     async register () {
-      const response = await AuthenticationService.register({
-        email: this.email,
-        password: this.password
-      })
-      console.log(response.data)
+      try {
+        const response = await AuthenticationService.register({
+          email: this.email,
+          password: this.password
+        })
+        console.log(response)
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     }
   }
 }
