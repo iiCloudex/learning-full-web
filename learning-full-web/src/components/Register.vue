@@ -1,17 +1,25 @@
 <template>
-  <div>
-    <h1>Register</h1>
-    <div class="container">
-      <div class="row">
-        <div class="mx-auto col-sm-4">
-          <input class="form-control" type="email" name="email" placeholder="Email..." v-model="email"/>
-          <input class="form-control mt-2" type="password" name="password" placeholder="Password..." v-model="password"/>
-          <div class="text-danger" v-html="error"></div>
-          <button class="btn btn-primary mt-2" @click="register">Sign Up</button>
+  <v-container>
+    <v-row>
+      <v-col lg="3"></v-col>
+      <v-col lg="6">
+        <div class="white elevation-2">
+          <v-toolbar flat dense dark>
+            <v-toolbar-title>Register</v-toolbar-title>
+          </v-toolbar>
+          <div class="px-4 py-2">
+            <v-text-field label="Email" placeholder="Email..." name="email" v-model="email"></v-text-field>
+            <br>
+            <v-text-field type="password" name="password" placeholder="Password..." label="Password" v-model="password"></v-text-field>
+            <br>
+            <div v-html="error"></div>
+            <br>
+            <v-btn class="cyan" @click="register">Sign Up</v-btn>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -27,11 +35,10 @@ export default {
   methods: {
     async register () {
       try {
-        const response = await AuthenticationService.register({
+        await AuthenticationService.register({
           email: this.email,
           password: this.password
         })
-        console.log(response)
       } catch (error) {
         this.error = error.response.data.error
       }
